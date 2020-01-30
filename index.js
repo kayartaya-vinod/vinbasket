@@ -1,16 +1,10 @@
-const path = require('path');
-const jsonServer = require('json-server');
-const server = jsonServer.create();
-const fs = require('fs');
-let data = fs.readFileSync(path.join(__dirname, 'db.json'), 'utf-8');
-data = JSON.parse(data);
-const router = jsonServer.router(data);
-const middlewares = jsonServer.defaults();
-const port = process.env.PORT || 80;
+var jsonServer = require('json-server')
+var server = jsonServer.create()
+var router = jsonServer.router(require('./db.js')())
+var middlewares = jsonServer.defaults()
 
-server.use(middlewares);
-server.use(router);
-
-server.listen(port, ()=>{
-    console.warn('VINOD:: deployed on port', port);
-});
+server.use(middlewares)
+server.use(router)
+server.listen(3000, function () {
+    console.log('JSON Server is running')
+})
